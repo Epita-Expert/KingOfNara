@@ -1,4 +1,7 @@
 # KingOfNara
+## pdf
+- [Rules in French](https://www.letempledujeu.fr/IMG/pdf/king_of_tokyo.pdf)
+- [Rules in English](https://cdn.1j1ju.com/medias/f9/2f/9b-king-of-tokyo-rulebook.pdf)
 
 ## Start
 We start with 
