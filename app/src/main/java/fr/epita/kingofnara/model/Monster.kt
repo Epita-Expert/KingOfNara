@@ -5,11 +5,11 @@ class Monster(
     /**
      * number of vicory point. 0 to TODO
      */
-    val victoryPoint:Int,
+    var victoryPoint:Int,
     /**
      * number of life point. 0 to TODO
      */
-    val lifePoints:Int,
+    var lifePoints:Int,
 
-    val nbEnergy:Int,
+    var nbEnergy:Int,
 )
