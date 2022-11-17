@@ -1,4 +1,11 @@
 # KingOfNara
+
+## Students
+- Auguste Hatton (taugat)
+- Adrien Morvan (adri-morvax)
+- Romain Paturet (Minaro)
+- Nathan Podesta (NathanPo)
+
 ## PDF
 - [Rules in French](https://www.letempledujeu.fr/IMG/pdf/king_of_tokyo.pdf)
 - [Rules in English](https://cdn.1j1ju.com/medias/f9/2f/9b-king-of-tokyo-rulebook.pdf)
