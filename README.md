@@ -3,7 +3,7 @@
 ## Students
 - Auguste Hatton (taugat)
 - Adrien Morvan (adri-morvax)
-- Romain Paturet (Minaro)
+- Romain Paturet (MinaroShikuchi)
 - Nathan Podesta (NathanPo)
 
 ## PDF
