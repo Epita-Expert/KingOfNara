@@ -1,15 +1,17 @@
 package fr.epita.kingofnara.model
 
-class Monster(
-    val name:String,
-    /**
-     * number of vicory point. 0 to TODO
-     */
-    var victoryPoint:Int,
-    /**
-     * number of life point. 0 to TODO
-     */
-    var lifePoints:Int,
+import android.icu.text.CaseMap.Title
+import fr.epita.kingofnara.game.GameProperties
 
-    var nbEnergy:Int,
+enum class Monster (
+    val title:String,
 )
+{
+    M1("Cyber Bunny"),
+    M2("Alienoid"),
+    M3("Mexa Dragon"),
+    M4("The King"),
+    M5("Zair"),
+    M6("Kraken"),
+
+}
