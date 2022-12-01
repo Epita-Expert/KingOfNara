@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/plateFragment">
+
+    <fragment
+        android:id="@+id/plateFragment"
+        android:name="com.example.kingofnara.ui.fragment.plate.PlateFragment"
+        android:label="fragment_plate"
+        tools:layout="@layout/fragment_plate" >
+        <action
+            android:id="@+id/action_plateFragment_to_diceFragment"
+            app:destination="@id/diceFragment" />
+        <action
+            android:id="@+id/action_plateFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+        <action
+            android:id="@+id/action_plateFragment_to_victoryFragment"
+            app:destination="@id/victoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diceFragment"
+        android:name="com.example.kingofnara.ui.fragment.dice.DiceFragment"
+        android:label="fragment_dice"
+        tools:layout="@layout/fragment_dice" />
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.example.kingofnara.ui.fragment.PlayerFragment"
+        android:label="fragment_player"
+        tools:layout="@layout/fragment_player" >
+        <argument
+            android:name="monster"
+            app:argType="com.example.kingofnara.model.Monster" />
+    </fragment>
+    <fragment
+        android:id="@+id/victoryFragment"
+        android:name="com.example.kingofnara.ui.fragment.VictoryFragment"
+        android:label="fragment_victory"
+        tools:layout="@layout/fragment_victory" />
+</navigation>
