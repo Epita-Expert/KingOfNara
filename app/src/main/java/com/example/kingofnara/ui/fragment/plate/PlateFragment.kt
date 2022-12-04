@@ -53,7 +53,7 @@ class PlateFragment : Fragment() {
         else
         {
 
-            viewModel.gameService = gameVM.gameService
+            viewModel.setGameService(gameVM.gameService)
             viewModel.setMonstersList()
 
             viewModel.newLeaveAsking.observe(viewLifecycleOwner, Observer { name ->

@@ -50,6 +50,8 @@ class GameService(nbPlayer: Int = NB_PLAYERS, playerChosenMonsters: List<Monster
 
         this.availableCard = ArrayList()
         this.availableCard.addAll(CardsVM.initCard())
+
+        currentPlayer = playersAlive.first()
     }
 
     fun startRound()

@@ -12,7 +12,7 @@ import com.example.kingofnara.service.GameService
 
 class PlateVM : ViewModel()
 {
-    lateinit var gameService : GameService
+    private lateinit var gameService : GameService
 
     var currentPlayerName = MutableLiveData<String>();
     var currentScore = MutableLiveData(DiceResult())
@@ -21,6 +21,13 @@ class PlateVM : ViewModel()
     var insideTokyoMonsters : MutableLiveData<List<Monster>> = MutableLiveData();
 
     var newLeaveAsking : MutableLiveData<String> = MutableLiveData();
+
+    fun setGameService(gameService : GameService)
+    {
+        this.gameService = gameService
+        currentPlayerName.value = gameService.getCurrentPlayer().monster.name
+        currentScore.value = gameService.getCurrentScore()
+    }
 
     fun setMonstersList()
     {
