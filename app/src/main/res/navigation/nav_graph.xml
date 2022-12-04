@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/plateFragment"
         android:name="com.example.kingofnara.ui.fragment.plate.PlateFragment"
-        android:label="fragment_plate"
-        tools:layout="@layout/fragment_plate" >
+        android:label="Plate"
+        tools:layout="@layout/fragment_plate">
         <action
             android:id="@+id/action_plateFragment_to_diceFragment"
             app:destination="@id/diceFragment"
@@ -33,8 +33,8 @@
     <fragment
         android:id="@+id/diceFragment"
         android:name="com.example.kingofnara.ui.fragment.dice.DiceFragment"
-        android:label="fragment_dice"
-        tools:layout="@layout/fragment_dice" >
+        android:label="Dice"
+        tools:layout="@layout/fragment_dice">
         <action
             android:id="@+id/action_diceFragment_to_plateFragment"
             app:destination="@id/plateFragment"
@@ -44,8 +44,8 @@
     <fragment
         android:id="@+id/playerFragment"
         android:name="com.example.kingofnara.ui.fragment.PlayerFragment"
-        android:label="fragment_player"
-        tools:layout="@layout/fragment_player" >
+        android:label="Players"
+        tools:layout="@layout/fragment_player">
         <argument
             android:name="monster"
             app:argType="com.example.kingofnara.model.Monster" />
@@ -53,8 +53,8 @@
     <fragment
         android:id="@+id/victoryFragment"
         android:name="com.example.kingofnara.ui.fragment.VictoryFragment"
-        android:label="fragment_victory"
-        tools:layout="@layout/fragment_victory" >
+        android:label="Victory"
+        tools:layout="@layout/fragment_victory">
         <argument
             android:name="victory"
             app:argType="boolean" />
@@ -65,8 +65,8 @@
     <fragment
         android:id="@+id/cardsFragment"
         android:name="com.example.kingofnara.ui.fragment.CardsFragment"
-        android:label="fragment_cards"
-        tools:layout="@layout/fragment_cards" >
+        android:label="Cards"
+        tools:layout="@layout/fragment_cards">
         <action
             android:id="@+id/action_cardsFragment_to_plateFragment"
             app:destination="@id/plateFragment"
@@ -76,8 +76,8 @@
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.example.kingofnara.ui.fragment.WelcomeFragment"
-        android:label="fragment_welcome"
-        tools:layout="@layout/fragment_welcome" >
+        android:label="Welcome"
+        tools:layout="@layout/fragment_welcome">
         <action
             android:id="@+id/action_welcomeFragment_to_plateFragment"
             app:destination="@id/plateFragment"
@@ -90,8 +90,8 @@
     <fragment
         android:id="@+id/chooseMonsterFragment"
         android:name="com.example.kingofnara.ui.fragment.ChooseMonsterFragment"
-        android:label="fragment_choose_monster"
-        tools:layout="@layout/fragment_choose_monster" >
+        android:label="Choose your monster"
+        tools:layout="@layout/fragment_choose_monster">
         <action
             android:id="@+id/action_chooseMonsterFragment_to_plateFragment"
             app:destination="@id/plateFragment"
