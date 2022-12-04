@@ -7,13 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.kingofnara.NB_MAX_PLAYER
 import com.example.kingofnara.R
-import com.example.kingofnara.ui.fragment.dice.DiceFragmentDirections
 import com.example.kingofnara.ui.viewmodel.GameVM
 
 class WelcomeFragment : Fragment()
@@ -52,19 +50,22 @@ class WelcomeFragment : Fragment()
                 }
         }
 
+        val nbTotalPlayerTxt = view.findViewById<TextView>(R.id.total_player_txt)
+        nbTotalPlayerTxt.text = gameVM.totalPlayer.toString()
+
         nbBotsTxt = view.findViewById<TextView>(R.id.nb_bots_txt)
         nbPlayersTxt = view.findViewById<TextView>(R.id.nb_players_txt)
 
-        val playerSeekBar2 = view.findViewById<SeekBar>(R.id.seekBar2)
-        playerSeekBar2.max = NB_MAX_PLAYER
-        playerSeekBar2.progress = gameVM.totalPlayer
+        val totalPlayerSeekBar = view.findViewById<SeekBar>(R.id.total_player_seekBar)
+        totalPlayerSeekBar.max = NB_MAX_PLAYER - 1
+        totalPlayerSeekBar.progress = gameVM.totalPlayer - 1
 
 
-        val playerSeekBar = view.findViewById<SeekBar>(R.id.seekBar)
-        playerSeekBar.max = gameVM.totalPlayer - 1
-        playerSeekBar.progress = gameVM.nbPlayer - 1
+        val playerBotSeekBar = view.findViewById<SeekBar>(R.id.player_bot_seekBar)
+        playerBotSeekBar.max = gameVM.totalPlayer - 1
+        playerBotSeekBar.progress = gameVM.nbPlayer - 1
 
-        playerSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        playerBotSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 gameVM.nbPlayer = progress + 1;
                 updateNbTxt();
@@ -74,13 +75,14 @@ class WelcomeFragment : Fragment()
 
         })
 
-        playerSeekBar2.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        totalPlayerSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 gameVM.totalPlayer = progress + 1;
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                playerSeekBar.max = gameVM.totalPlayer - 1
+                playerBotSeekBar.max = gameVM.totalPlayer - 1
+                nbTotalPlayerTxt.text = gameVM.totalPlayer.toString()
                 updateNbTxt()
             }
 

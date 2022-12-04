@@ -27,12 +27,22 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <SeekBar
-        android:id="@+id/seekBar2"
+        android:id="@+id/total_player_seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/total_player_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_player_seekBar"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/textView5"
@@ -43,11 +53,11 @@
         app:layout_constraintBottom_toTopOf="@+id/welcome_validate_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
+        app:layout_constraintTop_toBottomOf="@+id/total_player_seekBar" />
 
     <TextView
-        app:layout_constraintTop_toTopOf="@id/seekBar"
-        app:layout_constraintBottom_toBottomOf="@id/seekBar"
+        app:layout_constraintTop_toTopOf="@id/player_bot_seekBar"
+        app:layout_constraintBottom_toBottomOf="@id/player_bot_seekBar"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,8 +66,8 @@
         android:id="@+id/nb_players_txt"
         />
     <TextView
-        app:layout_constraintTop_toTopOf="@id/seekBar"
-        app:layout_constraintBottom_toBottomOf="@id/seekBar"
+        app:layout_constraintTop_toTopOf="@id/player_bot_seekBar"
+        app:layout_constraintBottom_toBottomOf="@id/player_bot_seekBar"
         app:layout_constraintLeft_toRightOf="@id/nb_players_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,7 +78,7 @@
 
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/player_bot_seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@id/welcome_joueurs_txt"
@@ -76,8 +86,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
-        app:layout_constraintTop_toTopOf="@id/seekBar"
-        app:layout_constraintBottom_toBottomOf="@id/seekBar"
+        app:layout_constraintTop_toTopOf="@id/player_bot_seekBar"
+        app:layout_constraintBottom_toBottomOf="@id/player_bot_seekBar"
         app:layout_constraintRight_toLeftOf="@id/welcome_bots_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,8 +96,8 @@
         android:id="@+id/nb_bots_txt"
         />
     <TextView
-        app:layout_constraintTop_toTopOf="@id/seekBar"
-        app:layout_constraintBottom_toBottomOf="@id/seekBar"
+        app:layout_constraintTop_toTopOf="@id/player_bot_seekBar"
+        app:layout_constraintBottom_toBottomOf="@id/player_bot_seekBar"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

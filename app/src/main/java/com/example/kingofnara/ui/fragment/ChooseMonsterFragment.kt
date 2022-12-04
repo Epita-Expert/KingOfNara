@@ -61,7 +61,9 @@ class ChooseMonsterFragment : Fragment() {
                 }
             }
 
-            val params = ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            val params = view.layoutParams
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            params.width =  ViewGroup.LayoutParams.WRAP_CONTENT
             view.layoutParams = params
 
             view.findViewById<LinearLayout>(R.id.choose_monster_layout).addView(monsterView)

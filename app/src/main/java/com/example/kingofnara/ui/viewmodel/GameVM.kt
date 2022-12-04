@@ -19,6 +19,7 @@ class GameVM()
     fun validateInit()
     {
         gameService = GameService(totalPlayer, playerChosenMonsters)
+        ready = true
     }
 
     fun getNbBotsTxt(): Int
@@ -26,7 +27,8 @@ class GameVM()
         return totalPlayer - nbPlayer
     }
 
-    fun getChooseMonsterPlayerName(): String {
+    fun getChooseMonsterPlayerName(): String
+    {
         return "Player " + (nbPlayerWithMonster + 1)
     }
 
@@ -43,7 +45,10 @@ class GameVM()
     fun chooseMonsters(monster: Monster) {
         nbPlayerWithMonster +=1
         playerChosenMonsters.add(monster)
-        validateInit()
+        if (!isMoreMonsterToChoose())
+        {
+            validateInit()
+        }
     }
 
 }
