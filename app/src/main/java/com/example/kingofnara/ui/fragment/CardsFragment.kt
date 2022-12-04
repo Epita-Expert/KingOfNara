@@ -67,7 +67,7 @@ class CardsFragment : Fragment() {
     @SuppressLint("MissingInflatedId")
     private fun addCardInList(card: EnergyCard, cardsList: LinearLayout)
     {
-        val cardView : View = layoutInflater.inflate(R.layout.item_card, null)
+        val cardView : LinearLayout = layoutInflater.inflate(R.layout.item_card, null) as LinearLayout
         cardView.findViewById<TextView>(R.id.card_title_txt).text = card.name
         cardView.findViewById<TextView>(R.id.card_type_txt).text = card.type.name
         cardView.findViewById<ImageView>(R.id.card_img).setImageResource(card.imgResource)
@@ -77,6 +77,7 @@ class CardsFragment : Fragment() {
         val params = LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT);
         params.weight = 1F
         cardView.layoutParams = params
+        cardView.weightSum = 13F
 
         cardView.setOnClickListener { onClickCard(card, cardView, cardsList) }
 
