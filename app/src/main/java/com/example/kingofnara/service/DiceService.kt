@@ -86,7 +86,7 @@ class DiceService()
             else -> 0
         }
 
-        return if (nbValue > NB_SAME_DICE_VICTORY_VALUE) (nbValue - NB_SAME_DICE_VICTORY_VALUE + value) else 0
+        return if (nbValue >= NB_SAME_DICE_VICTORY_VALUE) (nbValue - NB_SAME_DICE_VICTORY_VALUE + value) else 0
     }
 
     private fun shuffleDice(dice : Dice)

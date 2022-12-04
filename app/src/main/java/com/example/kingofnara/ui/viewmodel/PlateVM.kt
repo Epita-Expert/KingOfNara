@@ -14,7 +14,7 @@ class PlateVM : ViewModel()
 {
     lateinit var gameService : GameService
 
-    var currentPlayerName = MutableLiveData("");
+    var currentPlayerName = MutableLiveData<String>();
     var currentScore = MutableLiveData(DiceResult())
 
     var outsideTokyoMonsters : MutableLiveData<List<Monster>> = MutableLiveData();
@@ -49,6 +49,17 @@ class PlateVM : ViewModel()
     {
         gameService.applyCurrentScore();
         currentScore.value = gameService.getCurrentScore();
+        //if a bot set automatic next step
+        if (Player.PlayerType.BOT == gameService.getCurrentPlayer().playerType)
+        {
+            when (getNextStep())
+            {
+                GameStep.ASK_FOR_TOKYO_LEAVER -> askForTokyoLeaver()
+                GameStep.CHOOSE_CARDS -> gameService.finishCard()
+                else -> {//should not be here
+                 }
+            }
+        }
     }
 
     fun askForTokyoLeaver()
@@ -78,6 +89,10 @@ class PlateVM : ViewModel()
     {
         gameService.moveMonster();
         setMonstersList();
+        if (Player.PlayerType.BOT == gameService.getCurrentPlayer().playerType)
+        {
+            gameService.finishCard()
+        }
     }
 
     fun getNextStep(): GameStep {

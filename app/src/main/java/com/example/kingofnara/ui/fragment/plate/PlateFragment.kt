@@ -24,6 +24,12 @@ import com.example.kingofnara.ui.viewmodel.PlateVM
 
 class PlateFragment : Fragment() {
 
+    private lateinit var currentPlayerNameTV: TextView
+    private lateinit var  currentPlayerLPTV: TextView
+    private lateinit var  currentPlayerHPTV: TextView
+    private lateinit var  currentPlayerEPTV: TextView
+    private lateinit var currentPlayerVPTV: TextView
+
     private val viewModel : PlateVM by viewModels()
     private val gameVM : GameVM by activityViewModels()
 
@@ -62,22 +68,19 @@ class PlateFragment : Fragment() {
                 }
             })
 
-//        viewModel.nextStep.observe(viewLifecycleOwner, Observer { nextStep ->
-//            doNext(nextStep)
-//        })
-
             val scoreLayout: View = fragmentView.findViewById(R.id.score_layout)
-            val currentPlayerNameTV: TextView = fragmentView.findViewById(R.id.bottom_layout_name)
+            currentPlayerNameTV= fragmentView.findViewById(R.id.bottom_layout_name)
             viewModel.currentPlayerName.observe(viewLifecycleOwner, Observer {
                 if (View.INVISIBLE == scoreLayout.visibility || View.GONE == scoreLayout.visibility) {
                     scoreLayout.visibility = View.VISIBLE
                 }
                 currentPlayerNameTV.text = it
             })
-            val currentPlayerVPTV: TextView = fragmentView.findViewById(R.id.nb_vp_txt)
-            val currentPlayerEPTV: TextView = fragmentView.findViewById(R.id.nb_flash_txt)
-            val currentPlayerHPTV: TextView = fragmentView.findViewById(R.id.nb_slap_txt)
-            val currentPlayerLPTV: TextView = fragmentView.findViewById(R.id.nb_heart_txt)
+
+            currentPlayerVPTV = fragmentView.findViewById(R.id.nb_vp_txt)
+            currentPlayerEPTV = fragmentView.findViewById(R.id.nb_flash_txt)
+            currentPlayerHPTV = fragmentView.findViewById(R.id.nb_slap_txt)
+            currentPlayerLPTV = fragmentView.findViewById(R.id.nb_heart_txt)
             viewModel.currentScore.observe(viewLifecycleOwner, Observer {
                 currentPlayerVPTV.text = it.victoryPoint.toString()
                 currentPlayerEPTV.text = it.energyPoint.toString()
@@ -114,11 +117,23 @@ class PlateFragment : Fragment() {
                 monsterItemsAdapter.setMonsters(it);
                 monsterItemsAdapter.notifyDataSetChanged();
             })
+        }
+    }
 
-
-            if (GameStep.INIT_ROUND == viewModel.getNextStep()) {
-                viewModel.getNewRound()
-            }
+    override fun onResume() {
+        super.onResume()
+        viewModel.currentPlayerName.value?.let {currentPlayerNameTV.text = it }
+        viewModel.currentScore.value?.let {
+            currentPlayerVPTV.text = it.victoryPoint.toString()
+            currentPlayerEPTV.text = it.energyPoint.toString()
+            currentPlayerHPTV.text = it.hitPoint.toString()
+            currentPlayerLPTV.text = it.healPoint.toString()
+        }
+        when (viewModel.getNextStep())
+        {
+            GameStep.INIT_ROUND,GameStep.RESOLVE_SCORE,GameStep.ASK_FOR_TOKYO_LEAVER,GameStep.MOVE_MONSTER,GameStep.STOP_GAME
+                -> doNext(viewModel.getNextStep())
+            else -> {}
         }
     }
 

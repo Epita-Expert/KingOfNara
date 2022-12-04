@@ -39,7 +39,7 @@
             android:id="@+id/action_diceFragment_to_plateFragment"
             app:destination="@id/plateFragment"
             app:popUpTo="@id/plateFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
