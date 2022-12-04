@@ -64,10 +64,12 @@ class CardsFragment : Fragment() {
 
     }
 
+    @SuppressLint("MissingInflatedId")
     private fun addCardInList(card: EnergyCard, cardsList: LinearLayout)
     {
         val cardView : View = layoutInflater.inflate(R.layout.item_card, null)
         cardView.findViewById<TextView>(R.id.card_title_txt).text = card.name
+        cardView.findViewById<TextView>(R.id.card_type_txt).text = card.type.name
         cardView.findViewById<ImageView>(R.id.card_img).setImageResource(card.imgResource)
         cardView.findViewById<TextView>(R.id.card_description).text = card.effect
         cardView.findViewById<TextView>(R.id.card_price).text = card.price.toString()
