@@ -27,10 +27,12 @@ class CardsVM : ViewModel()
 
     fun draw()
     {
-        gameService.getCurrentPlayer().nbEnergy -= DRAW_PRICE
-        for (i in 0 until gameService.availableCard.size)
+        if (isDrawAvailable())
         {
-            selectCard(gameService.availableCard[i])
+            gameService.getCurrentPlayer().nbEnergy -= DRAW_PRICE
+            for (i in 0 until gameService.availableCard.size) {
+                selectCard(gameService.availableCard[i])
+            }
         }
     }
 
@@ -45,14 +47,18 @@ class CardsVM : ViewModel()
 
     fun selectCard(card: EnergyCard): EnergyCard
     {
-        gameService.getCurrentPlayer().nbEnergy -= card.price
-        //TODO apply effect
+        if (isCardAvailable(card)) {
+            gameService.getCurrentPlayer().nbEnergy -= card.price
+            gameService.getCurrentPlayer().cards.add(card)
 
-        gameService.availableCard.remove(card)
-        val newCard = getNewCard()
-        gameService.availableCard.add(newCard)
+            gameService.availableCard.remove(card)
+            val newCard = getNewCard()
+            gameService.availableCard.add(newCard)
 
-        return newCard
+            return newCard
+        }
+
+        return card
     }
 
     fun validate() {

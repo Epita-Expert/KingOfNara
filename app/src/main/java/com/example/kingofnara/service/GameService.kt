@@ -7,6 +7,7 @@ import com.example.kingofnara.model.Monster
 import com.example.kingofnara.model.Player
 import com.example.kingofnara.model.dice.DiceResult
 import com.example.kingofnara.ui.viewmodel.CardsVM
+import fr.epita.kingofnara.model.CardType
 import fr.epita.kingofnara.model.EnergyCard
 
 class GameService(nbPlayer: Int = NB_PLAYERS, playerChosenMonsters: List<Monster>)
@@ -181,7 +182,12 @@ class GameService(nbPlayer: Int = NB_PLAYERS, playerChosenMonsters: List<Monster
 
     fun finishCard()
     {
-        //TODO apply card effect
+
+        currentPlayer.cards.forEach { it.method.accept(this) }
+        currentPlayer.cards.removeIf{
+            CardType.POWER == it.type
+        }
+
         nextStep = GameStep.INIT_ROUND;
     }
 

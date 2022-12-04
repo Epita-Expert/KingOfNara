@@ -1,6 +1,7 @@
 package com.example.kingofnara.model
 
 import com.example.kingofnara.NB_MAX_LIFE_POINT
+import fr.epita.kingofnara.model.EnergyCard
 
 
 class Player (
@@ -21,6 +22,8 @@ class Player (
 
     var inTokyo: Boolean = false,
 ) {
+    val cards = ArrayList<EnergyCard>()
+
     enum class PlayerType
     {
         REAL,
