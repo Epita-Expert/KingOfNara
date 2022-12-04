@@ -29,14 +29,14 @@ const val NB_BLACK_DICES = 6;
             {
                 val indexOfCurrentPlayer = gameService.leavingPlayer.indexOf(gameService.getCurrentPlayer())
 
-                    if (0 != indexOfCurrentPlayer)
-                    {
-                        gameService.leavingPlayer[indexOfCurrentPlayer - 1].lifePoints -= 1
-                    }
-                    else
-                    {
-                        gameService.leavingPlayer.last().lifePoints -= 1
-                    }
+                if (0 != indexOfCurrentPlayer)
+                {
+                    gameService.leavingPlayer[indexOfCurrentPlayer - 1].lifePoints -= 1
+                }
+                else
+                {
+                    gameService.leavingPlayer.last().lifePoints -= 1
+                }
                 if (3 <= gameService.leavingPlayer.size)
                 {
                     if (gameService.leavingPlayer.lastIndex != indexOfCurrentPlayer)

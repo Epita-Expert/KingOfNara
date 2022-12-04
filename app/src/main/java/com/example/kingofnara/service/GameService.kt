@@ -185,7 +185,7 @@ class GameService(nbPlayer: Int = NB_PLAYERS, playerChosenMonsters: List<Monster
 
         currentPlayer.cards.forEach { it.method.accept(this) }
         currentPlayer.cards.removeIf{
-            CardType.POWER == it.type
+            CardType.ACTION == it.type
         }
 
         nextStep = GameStep.INIT_ROUND;
