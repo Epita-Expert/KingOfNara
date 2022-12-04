@@ -16,31 +16,11 @@ class PlateVM : ViewModel()
 
     var currentPlayerName = MutableLiveData("");
     var currentScore = MutableLiveData(DiceResult())
-    var winner = MutableLiveData<Player>();
 
     var outsideTokyoMonsters : MutableLiveData<List<Monster>> = MutableLiveData();
     var insideTokyoMonsters : MutableLiveData<List<Monster>> = MutableLiveData();
 
     var newLeaveAsking : MutableLiveData<String> = MutableLiveData();
-
-    var gameFinished = MutableLiveData(false)
-
-    fun doNext()
-    {
-        Log.i(javaClass.name, "doNext() : " + gameService.nextStep.name)
-       when (gameService.nextStep)
-       {
-           GameStep.INIT_ROUND -> getNewRound()
-           //TODO GameStep.THROW_DICE ->
-           GameStep.RESOLVE_SCORE -> updateScore()
-           GameStep.ASK_FOR_TOKYO_LEAVER -> askForTokyoLeaver()
-           GameStep.MOVE_MONSTER -> moveMonster()
-           GameStep.STOP_GAME -> {
-               gameFinished.value = true
-           }
-           else -> {}
-       }
-    }
 
     fun setMonstersList()
     {
@@ -54,6 +34,7 @@ class PlateVM : ViewModel()
         currentPlayerName.value = gameService.getCurrentPlayer().monster.name
         currentScore.value = gameService.getCurrentScore()
 
+        //if a bot set automatic dices result
         if (Player.PlayerType.BOT == gameService.getCurrentPlayer().playerType)
         {
             val diceService = DiceService();
@@ -68,10 +49,6 @@ class PlateVM : ViewModel()
     {
         gameService.applyCurrentScore();
         currentScore.value = gameService.getCurrentScore();
-        if (gameService.isWinner())
-        {
-            winner.value = gameService.getWinner()
-        }
     }
 
     fun askForTokyoLeaver()
@@ -79,7 +56,8 @@ class PlateVM : ViewModel()
         val player = gameService.leavingPlayer[0]
         if (Player.PlayerType.BOT == player.playerType)
         {
-            setTokyoLeaver(true);
+            //random decision
+            setTokyoLeaver((1 == Math.random().toInt()%2));
         }
         else
         {
@@ -90,12 +68,20 @@ class PlateVM : ViewModel()
     fun setTokyoLeaver(leave : Boolean)
     {
         gameService.playerWantToLeave(gameService.leavingPlayer[0], leave)
+        if (0 == gameService.leavingPlayer.size)
+        {
+            moveMonster()
+        }
     }
 
     fun moveMonster()
     {
         gameService.moveMonster();
         setMonstersList();
+    }
+
+    fun getNextStep(): GameStep {
+        return gameService.nextStep
     }
 
 }

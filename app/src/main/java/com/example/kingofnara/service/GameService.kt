@@ -6,9 +6,13 @@ import com.example.kingofnara.model.GameStep
 import com.example.kingofnara.model.Monster
 import com.example.kingofnara.model.Player
 import com.example.kingofnara.model.dice.DiceResult
+import com.example.kingofnara.ui.viewmodel.CardsVM
+import fr.epita.kingofnara.model.EnergyCard
 
-class GameService(nbPlayer: Int = NB_PLAYERS)
+class GameService(nbPlayer: Int = NB_PLAYERS, playerChosenMonsters: List<Monster>)
 {
+    val availableCard: ArrayList<EnergyCard>
+
     private var tokyoSize : Int;
 
     private val totalPlayers: List<Player>
@@ -25,18 +29,27 @@ class GameService(nbPlayer: Int = NB_PLAYERS)
     init
     {
         val players = ArrayList<Player>();
-        Monster.values().copyOf(nbPlayer).forEach { if (null != it)
-            players.add(Player(
-                if (players.isEmpty())
-                    Player.PlayerType.REAL
-                else
-                    Player.PlayerType.BOT
-                , it)) };
+
+        playerChosenMonsters.forEach {
+            players.add(Player(Player.PlayerType.REAL, it))
+        }
+
+        val nbRealPlayer = playerChosenMonsters.size
+
+        val availableMonsterForBot =
+            Monster.values().filter { !playerChosenMonsters.contains(it) }
+        for (i in 0 until nbPlayer - nbRealPlayer)
+        {
+            players.add(Player(Player.PlayerType.BOT, availableMonsterForBot[i]))
+        }
 
         this.totalPlayers= players.filter { true }
         this.playersAlive = players;
 
         this.tokyoSize = if (nbPlayer <= 4) 1 else 2;
+
+        this.availableCard = ArrayList()
+        this.availableCard.addAll(CardsVM.initCard())
     }
 
     fun startRound()
@@ -105,7 +118,7 @@ class GameService(nbPlayer: Int = NB_PLAYERS)
         }
         else
         {
-            GameStep.INIT_ROUND
+            GameStep.CHOOSE_CARDS
         }
     }
 
@@ -161,6 +174,12 @@ class GameService(nbPlayer: Int = NB_PLAYERS)
             }
         }
 
+        nextStep = GameStep.CHOOSE_CARDS;
+    }
+
+    fun finishCard()
+    {
+        //TODO apply card effect
         nextStep = GameStep.INIT_ROUND;
     }
 

@@ -7,6 +7,7 @@ enum class GameStep
     RESOLVE_SCORE,
     ASK_FOR_TOKYO_LEAVER,
     MOVE_MONSTER,
+    CHOOSE_CARDS,
     STOP_GAME
 
 }

@@ -9,21 +9,17 @@ import com.example.kingofnara.service.GameService
 
 class DiceVM : ViewModel()
 {
-    val endDices = MutableLiveData(false)
     lateinit var gameService : GameService
     private var diceService = DiceService();
     var dices : MutableLiveData<List<Dice>> = MutableLiveData(emptyList());
+    val moreShuffle = MutableLiveData(true)
 
     fun nextStep() {
         if (diceService.isMoreShuffle())
         {
             shuffle()
         }
-        else
-        {
-            gameService.setDiceResult(diceService.resolveDices());
-            endDices.value = true
-        }
+        moreShuffle.value = diceService.isMoreShuffle()
     }
 
     fun changeDiceValidatedState(dice : Dice): Boolean
@@ -40,5 +36,9 @@ class DiceVM : ViewModel()
     private fun shuffle()
     {
         dices.value = diceService.shuffleDices();
+    }
+
+    fun validate() {
+        gameService.setDiceResult(diceService.resolveDices());
     }
 }

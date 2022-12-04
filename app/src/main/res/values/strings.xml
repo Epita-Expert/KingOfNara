@@ -50,4 +50,9 @@
     <string name="plus">+</string>
     <string name="nb_default">0</string>
     <string name="victory">VICTORY !!</string>
+    <string name="validated">Validated</string>
+    <string name="select_dices_title">Select the dices you want to keep</string>
+    <string name="validate">Validate</string>
+    <string name="re_draw">re draw</string>
+    <string name="cards_title">Buy cards</string>
 </resources>

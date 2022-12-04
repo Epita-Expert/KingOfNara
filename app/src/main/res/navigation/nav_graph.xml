@@ -12,19 +12,35 @@
         tools:layout="@layout/fragment_plate" >
         <action
             android:id="@+id/action_plateFragment_to_diceFragment"
-            app:destination="@id/diceFragment" />
+            app:destination="@id/diceFragment"
+            app:popUpTo="@id/diceFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_plateFragment_to_playerFragment"
             app:destination="@id/playerFragment" />
         <action
             android:id="@+id/action_plateFragment_to_victoryFragment"
-            app:destination="@id/victoryFragment" />
+            app:destination="@id/victoryFragment"
+            app:popUpTo="@id/victoryFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_plateFragment_to_cardsFragment"
+            app:destination="@id/cardsFragment" />
+        <action
+            android:id="@+id/action_plateFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/diceFragment"
         android:name="com.example.kingofnara.ui.fragment.dice.DiceFragment"
         android:label="fragment_dice"
-        tools:layout="@layout/fragment_dice" />
+        tools:layout="@layout/fragment_dice" >
+        <action
+            android:id="@+id/action_diceFragment_to_plateFragment"
+            app:destination="@id/plateFragment"
+            app:popUpTo="@id/plateFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/playerFragment"
         android:name="com.example.kingofnara.ui.fragment.PlayerFragment"
@@ -38,5 +54,51 @@
         android:id="@+id/victoryFragment"
         android:name="com.example.kingofnara.ui.fragment.VictoryFragment"
         android:label="fragment_victory"
-        tools:layout="@layout/fragment_victory" />
+        tools:layout="@layout/fragment_victory" >
+        <argument
+            android:name="victory"
+            app:argType="boolean" />
+        <argument
+            android:name="winner"
+            app:argType="com.example.kingofnara.model.Monster" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardsFragment"
+        android:name="com.example.kingofnara.ui.fragment.CardsFragment"
+        android:label="fragment_cards"
+        tools:layout="@layout/fragment_cards" >
+        <action
+            android:id="@+id/action_cardsFragment_to_plateFragment"
+            app:destination="@id/plateFragment"
+            app:popUpTo="@id/plateFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.example.kingofnara.ui.fragment.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_plateFragment"
+            app:destination="@id/plateFragment"
+            app:popUpTo="@id/plateFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_chooseMonsterFragment"
+            app:destination="@id/chooseMonsterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseMonsterFragment"
+        android:name="com.example.kingofnara.ui.fragment.ChooseMonsterFragment"
+        android:label="fragment_choose_monster"
+        tools:layout="@layout/fragment_choose_monster" >
+        <action
+            android:id="@+id/action_chooseMonsterFragment_to_plateFragment"
+            app:destination="@id/plateFragment"
+            app:popUpTo="@id/plateFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_chooseMonsterFragment_self"
+            app:destination="@id/chooseMonsterFragment" />
+    </fragment>
 </navigation>

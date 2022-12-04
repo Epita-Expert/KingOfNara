@@ -3,6 +3,7 @@ package com.example.kingofnara.ui.fragment.plate
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +12,12 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.GridView
 import android.widget.TextView
-import androidx.compose.material3.AlertDialog
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.kingofnara.R
+import com.example.kingofnara.model.GameStep
 import com.example.kingofnara.model.Monster
 import com.example.kingofnara.ui.viewmodel.GameVM
 import com.example.kingofnara.ui.viewmodel.PlateVM
@@ -37,83 +37,95 @@ class PlateFragment : Fragment() {
 
     override fun onViewCreated(fragmentView: View, savedInstanceState: Bundle?) {
 
-        viewModel.gameService = gameVM.gameService
-        viewModel.setMonstersList()
+        if (!gameVM.ready)
+        {
+            findNavController().
+            navigate(
+                PlateFragmentDirections.actionPlateFragmentToWelcomeFragment()
+            );
+       }
+        else
+        {
 
-        viewModel.newLeaveAsking.observe(viewLifecycleOwner, Observer { name ->
+            viewModel.gameService = gameVM.gameService
+            viewModel.setMonstersList()
 
-            if (null != name)
-            {
-                viewModel.newLeaveAsking.value = null;
-                val builder = getBuilder()
-                if (null!=builder)
-                {
-                    builder.setMessage("$name, Do you want to leave tokyo?")
-                    builder.show()
+            viewModel.newLeaveAsking.observe(viewLifecycleOwner, Observer { name ->
+
+                if (null != name) {
+                    viewModel.newLeaveAsking.value = null;
+                    val builder = getBuilder()
+                    if (null != builder) {
+                        builder.setMessage("$name, Do you want to leave tokyo?")
+                        builder.show()
+                    }
                 }
-            }
-        })
+            })
 
-        viewModel.gameFinished.observe(viewLifecycleOwner, Observer {
-            if (it)
-            {
-                findNavController().navigate(
-                    PlateFragmentDirections.actionPlateFragmentToVictoryFragment()
-                )
-            }
-        })
-        val currentPlayerNameTV : TextView = fragmentView.findViewById(R.id.bottom_layout_name)
-        viewModel.currentPlayerName.observe(viewLifecycleOwner, Observer {
-            currentPlayerNameTV.text = it
-        })
-        val currentPlayerVPTV : TextView = fragmentView.findViewById(R.id.nb_vp_txt)
-        val currentPlayerEPTV : TextView = fragmentView.findViewById(R.id.nb_flash_txt)
-        val currentPlayerHPTV : TextView = fragmentView.findViewById(R.id.nb_slap_txt)
-        val currentPlayerLPTV : TextView = fragmentView.findViewById(R.id.nb_heart_txt)
-        viewModel.currentScore.observe(viewLifecycleOwner, Observer {
-            currentPlayerVPTV.text = it.victoryPoint.toString()
-            currentPlayerEPTV.text = it.energyPoint.toString()
-            currentPlayerHPTV.text = it.hitPoint.toString()
-            currentPlayerLPTV.text = it.healPoint.toString()
-        })
+//        viewModel.nextStep.observe(viewLifecycleOwner, Observer { nextStep ->
+//            doNext(nextStep)
+//        })
 
-        val diceBtn : Button = fragmentView.findViewById(R.id.show_dices_btn)
-        diceBtn.setOnClickListener {onClickDiceBtn()}
-        val cardBtn : Button = fragmentView.findViewById(R.id.show_cards_btn)
-        cardBtn.setOnClickListener {onClickCardBtn()}
-        val nextBtn : Button = fragmentView.findViewById(R.id.action_next_btn)
-        nextBtn.setOnClickListener {onClickNextBtn()}
+            val scoreLayout: View = fragmentView.findViewById(R.id.score_layout)
+            val currentPlayerNameTV: TextView = fragmentView.findViewById(R.id.bottom_layout_name)
+            viewModel.currentPlayerName.observe(viewLifecycleOwner, Observer {
+                if (View.INVISIBLE == scoreLayout.visibility || View.GONE == scoreLayout.visibility) {
+                    scoreLayout.visibility = View.VISIBLE
+                }
+                currentPlayerNameTV.text = it
+            })
+            val currentPlayerVPTV: TextView = fragmentView.findViewById(R.id.nb_vp_txt)
+            val currentPlayerEPTV: TextView = fragmentView.findViewById(R.id.nb_flash_txt)
+            val currentPlayerHPTV: TextView = fragmentView.findViewById(R.id.nb_slap_txt)
+            val currentPlayerLPTV: TextView = fragmentView.findViewById(R.id.nb_heart_txt)
+            viewModel.currentScore.observe(viewLifecycleOwner, Observer {
+                currentPlayerVPTV.text = it.victoryPoint.toString()
+                currentPlayerEPTV.text = it.energyPoint.toString()
+                currentPlayerHPTV.text = it.hitPoint.toString()
+                currentPlayerLPTV.text = it.healPoint.toString()
+            })
 
-        val adapterItemClickListener = AdapterView.OnItemClickListener { viewAdapter, _, position, _ ->
-            val adapter = viewAdapter.adapter as MonsterItemsAdapter
-            if (adapter.getItem(position) is Monster)
-            {
-                onClickMonsterItem(adapter.getItem(position) as Monster)
+            val nextBtn: Button = fragmentView.findViewById(R.id.action_next_btn)
+            nextBtn.setOnClickListener { doNext(viewModel.getNextStep()) }
+
+            val adapterItemClickListener =
+                AdapterView.OnItemClickListener { viewAdapter, _, position, _ ->
+                    val adapter = viewAdapter.adapter as MonsterItemsAdapter
+                    if (adapter.getItem(position) is Monster) {
+                        onClickMonsterItem(adapter.getItem(position) as Monster)
+                    }
+                }
+            val outsideTokyoLayout: GridView = fragmentView.findViewById(R.id.outsidetokyo_layout);
+            outsideTokyoLayout.adapter =
+                MonsterItemsAdapter(context, viewModel.outsideTokyoMonsters.value ?: ArrayList());
+            outsideTokyoLayout.onItemClickListener = adapterItemClickListener
+            viewModel.outsideTokyoMonsters.observe(viewLifecycleOwner, Observer {
+                val monsterItemsAdapter = outsideTokyoLayout.adapter as MonsterItemsAdapter
+                monsterItemsAdapter.setMonsters(it);
+                monsterItemsAdapter.notifyDataSetChanged();
+            })
+
+            val insideTokyoLayout: GridView = fragmentView.findViewById(R.id.insidetokyo_layout);
+            insideTokyoLayout.adapter =
+                MonsterItemsAdapter(context, viewModel.insideTokyoMonsters.value ?: ArrayList());
+            insideTokyoLayout.onItemClickListener = adapterItemClickListener
+            viewModel.insideTokyoMonsters.observe(viewLifecycleOwner, Observer {
+                val monsterItemsAdapter = insideTokyoLayout.adapter as MonsterItemsAdapter
+                monsterItemsAdapter.setMonsters(it);
+                monsterItemsAdapter.notifyDataSetChanged();
+            })
+
+
+            if (GameStep.INIT_ROUND == viewModel.getNextStep()) {
+                viewModel.getNewRound()
             }
         }
-        val outsideTokyoLayout: GridView = fragmentView.findViewById(R.id.outsidetokyo_layout);
-        outsideTokyoLayout.adapter = MonsterItemsAdapter(context, viewModel.outsideTokyoMonsters.value?:ArrayList());
-        outsideTokyoLayout.onItemClickListener = adapterItemClickListener
-        viewModel.outsideTokyoMonsters.observe(viewLifecycleOwner, Observer {
-            val monsterItemsAdapter = outsideTokyoLayout.adapter as MonsterItemsAdapter
-            monsterItemsAdapter.setMonsters(it);
-            monsterItemsAdapter.notifyDataSetChanged();
-        })
-
-        val insideTokyoLayout : GridView = fragmentView.findViewById(R.id.insidetokyo_layout);
-        insideTokyoLayout.adapter = MonsterItemsAdapter(context, viewModel.insideTokyoMonsters.value?:ArrayList());
-        insideTokyoLayout.onItemClickListener = adapterItemClickListener
-        viewModel.insideTokyoMonsters.observe(viewLifecycleOwner, Observer {
-            val monsterItemsAdapter = insideTokyoLayout.adapter as MonsterItemsAdapter
-            monsterItemsAdapter.setMonsters(it);
-            monsterItemsAdapter.notifyDataSetChanged();
-        })
     }
 
     private fun getBuilder(): AlertDialog? {
         val builder = AlertDialog.Builder(activity)
         builder.apply {
-            setTitle("Un monstre vous attaque")
+            setTitle("A Monster is attacking Tokyo !")
             setPositiveButton("YES",
                 DialogInterface.OnClickListener { dialog, id ->
                     viewModel.setTokyoLeaver(true)
@@ -127,28 +139,47 @@ class PlateFragment : Fragment() {
         return builder.create()
     }
 
-    private fun onClickNextBtn()
-    {
-       viewModel.doNext()
-    }
-
     private fun onClickCardBtn() {
-        TODO("Not yet implemented")
+        findNavController().
+        navigate(
+            PlateFragmentDirections.actionPlateFragmentToCardsFragment()
+        );
     }
 
-    fun onClickMonsterItem(monster: Monster)
+    private fun onClickMonsterItem(monster: Monster)
     {
-        findNavController().navigate(
+        findNavController().
+        navigate(
             PlateFragmentDirections.actionPlateFragmentToPlayerFragment(monster)
         );
 
     }
 
-    fun onClickDiceBtn()
+    private fun onClickDiceBtn()
     {
         findNavController().navigate(
             PlateFragmentDirections.actionPlateFragmentToDiceFragment()
         );
+    }
+
+    private fun doNext(nextStep : GameStep)
+    {
+        Log.i(javaClass.name, "doNext() : " + nextStep.name)
+        when (nextStep)
+        {
+            GameStep.INIT_ROUND -> viewModel.getNewRound()
+            GameStep.THROW_DICE -> onClickDiceBtn()
+            GameStep.RESOLVE_SCORE -> viewModel.updateScore()
+            GameStep.ASK_FOR_TOKYO_LEAVER -> viewModel.askForTokyoLeaver()
+            GameStep.MOVE_MONSTER -> viewModel.moveMonster()
+            GameStep.CHOOSE_CARDS -> onClickCardBtn()
+            GameStep.STOP_GAME -> {
+                findNavController().navigate(
+                    PlateFragmentDirections.actionPlateFragmentToVictoryFragment(gameVM.gameService.isWinner(), gameVM.gameService.getWinner().monster)
+                )
+            }
+            else -> {}
+        }
     }
 
 }

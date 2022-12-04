@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Button
@@ -15,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.kingofnara.R
 import com.example.kingofnara.ui.viewmodel.DiceVM
 import com.example.kingofnara.model.dice.Dice
-import com.example.kingofnara.ui.fragment.plate.PlateFragmentDirections
 import com.example.kingofnara.ui.viewmodel.GameVM
 
 class DiceFragment : Fragment()
@@ -51,16 +52,27 @@ class DiceFragment : Fragment()
             diceItemsAdapter.notifyDataSetChanged()
         });
 
-
-        val actionBtn : Button = fragmentView.findViewById(R.id.dice_action_button);
-        actionBtn.setOnClickListener { viewModel.nextStep() }
-
-        /*viewModel.endDices.observe(viewLifecycleOwner, Observer {
-            findNavController().navigate(
+        val validateBtn = fragmentView.findViewById<Button>(R.id.dice_validate_btn);
+        validateBtn.setOnClickListener {
+            viewModel.validate()
+            findNavController().
+            navigate(
                 DiceFragmentDirections.actionDiceFragmentToPlateFragment()
-            );
+            )
+        }
+
+        val actionBtn : Button = fragmentView.findViewById(R.id.dice_shuffle_btn);
+        actionBtn.setOnClickListener {
+                viewModel.nextStep()
+                validateBtn.visibility = VISIBLE
+            }
+
+        viewModel.moreShuffle.observe(viewLifecycleOwner, Observer {
+            if (!it)
+            {
+                actionBtn.visibility = GONE
+            }
         });
-         */
 
     }
 }

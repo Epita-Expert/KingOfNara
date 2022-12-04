@@ -4,5 +4,8 @@ class EnergyCard (
     val price : Int,
     val name : String,
     val type : CardType,
+    val imgResource: Int,
     val effect : String,
-        )
+        ) {
+
+}

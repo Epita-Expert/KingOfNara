@@ -104,6 +104,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:id="@+id/score_layout"
+            android:visibility="invisible"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -159,26 +161,7 @@
                 android:layout_height="15sp"
                 android:src="@drawable/flash"
                 />
-            <TextView
-                android:layout_marginStart="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/plus"
-                android:textSize="15sp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nb_default"
-                android:textSize="15sp"
 
-                android:id="@+id/nb_slap_txt"
-                />
-            <ImageView
-                android:layout_width="15sp"
-                android:layout_height="15sp"
-                android:src="@drawable/slap"
-                />
             <TextView
                 android:layout_marginStart="3dp"
                 android:layout_width="wrap_content"
@@ -199,6 +182,22 @@
                 android:src="@drawable/heart"
                 />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nb_default"
+                android:textSize="15sp"
+
+                android:layout_marginLeft="10dp"
+
+                android:id="@+id/nb_slap_txt"
+                />
+            <ImageView
+                android:layout_width="15sp"
+                android:layout_height="15sp"
+                android:src="@drawable/slap"
+                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -206,26 +205,6 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             >
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="15dp"
-
-                android:id="@+id/show_dices_btn"
-                android:text="Roll dices"
-                android:textSize="20sp"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="15dp"
-
-                android:id="@+id/show_cards_btn"
-                android:text="Cards"
-                android:textSize="20sp"
-                />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
