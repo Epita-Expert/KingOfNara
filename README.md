@@ -1,4 +1,6 @@
 # KingOfNara
+## Condition to use
+- Enable Dark Mode
 
 ## Students
 - Auguste Hatton (taugat)
