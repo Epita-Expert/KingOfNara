@@ -1,5 +1,5 @@
 # KingOfNara
-## Condition to use
+## Terms of use
 - Enable Dark Mode
 
 ## Students
